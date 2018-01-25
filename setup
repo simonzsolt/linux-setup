@@ -1,0 +1,120 @@
+sudo upgrade;
+sudo apt-get install java-common vlc browser-plugin-vlc clipit git python-pip openvpn curl gconf2 gconf-service gconf-service-backend gconf2-common libappindicator1 libatomic1 libc++1 libc++abi1 libgconf-2-4 libindicator7 libcurl4-gnutls-dev easytag mpv;
+
+# ==========
+# update pip
+
+sudo -H pip install -U pip;
+
+# ==================
+# install youtube-dl
+
+sudo pip install --upgrade youtube_dl;
+
+# ==============
+# install skype
+
+sudo mkdir ./deb_skype;
+cd ./deb_skype;
+wget https://go.skype.com/skypeforlinux-64.deb;
+sudo dpkg -i ./*deb;
+cd ..;
+sudo rm -R ./deb_skype;
+
+# ==============
+# install tixati
+
+sudo mkdir ./deb_tixati;
+cd ./deb_tixati;
+wget https://download2.tixati.com/download/tixati_2.56-1_amd64.deb;
+sudo dpkg -i ./*deb;
+cd ..;
+sudo rm -R ./deb_tixati;
+
+# ==========
+# config git
+
+git config --global user.name "Zsolt Simon";
+git config --global user.email "simonzsoltjota@gmail.com";
+
+# ===============
+# install Postman
+
+sudo mkdir ./tar_postman;
+cd ./tar_postman
+wget https://dl.pstmn.io/download/latest/linux64 -O postman.tar.gz;
+sudo tar -xzf postman.tar.gz -C /opt;
+cd ..
+sudo rm -R ./tar_postman;
+sudo ln -s /opt/Postman/Postman /usr/bin/postman;
+
+# =================
+# install GitKraken
+
+sudo mkdir ./kraken_deb;
+cd ./kraken_deb
+wget https://release.gitkraken.com/linux/gitkraken-amd64.deb;
+sudo dpkg -i ./*deb;
+cd ..
+sudo rm -R ./kraken_deb;
+
+# ===================
+# install Slack 3.0.5
+
+sudo mkdi ./deb_slack;
+cd ./deb_slack
+wget https://downloads.slack-edge.com/linux_releases/slack-desktop-3.0.5-amd64.deb;
+sudo dpkg -i ./*deb;
+cd ..
+sudo rm -R ./deb_slack;
+
+# =====================
+# install Discord 0.0.4
+
+sudo mkdir .deb_discord;
+cd .deb_discord;
+curl -L https://discordapp.com/api/download?platform=linux --output ./discord-0.0.4.deb;
+# sudo apt-get install gconf-service gconf-service-backend gconf2-common libappindicator1 libatomic1 libc++1 libc++abi1 libgconf-2-4 libindicator7;
+sudo dpkg -i ./*deb;
+cd ..;
+sudo rm -R .deb_discord;
+
+# ======================
+# install latest Dbeaver
+
+sudo update-dbeaver;
+
+# =====================
+# install Atom v.1.23.3
+
+sudo mkdir ./atom_deb;
+cd ./atom_deb
+sudo curl -sL --output atom.deb https://atom-installer.github.com/v1.23.3/atom-amd64.deb?s=1515545945&ext=.deb;
+sudo dpkg -i ./*deb;
+cd ..
+sudo rm -R ./atom_deb;
+sudo apm update;
+
+# ================
+# install Nodejs 9
+
+curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
+sudo apt-get install -y nodejs;
+sudo npm update -g;
+
+sudo npm i -g nodemon;
+
+# =============================
+# install kernel 4.14.14-041414
+
+sudo mkdir ./kernel_debs;
+cd ./kernel_debs
+wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.14.14/linux-headers-4.14.14-041414_4.14.14-041414.201801201219_all.deb http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.14.14/linux-headers-4.14.14-041414-generic_4.14.14-041414.201801201219_amd64.deb http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.14.14/linux-headers-4.14.14-041414-lowlatency_4.14.14-041414.201801201219_amd64.deb http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.14.14/linux-image-4.14.14-041414-generic_4.14.14-041414.201801201219_amd64.deb http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.14.14/linux-image-4.14.14-041414-lowlatency_4.14.14-041414.201801201219_amd64.deb
+sudo dpkg -i ./*deb;
+cd ..
+sudo rm -R ./kernel_debs;
+
+# =============
+# final upgrade
+
+sudo upgrade;
