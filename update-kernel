@@ -1,0 +1,6 @@
+sudo mkdir ./kernel-debs;
+cd ./kernel-debs;
+wget $1 $2;
+sudo dpkg -i ./*deb;
+cd ../;
+sudo rm -R ./kernel-debs;

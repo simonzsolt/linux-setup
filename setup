@@ -1,5 +1,11 @@
-sudo upgrade;
+sudo apt-get update;
 sudo apt-get install java-common vlc browser-plugin-vlc clipit git python-pip openvpn curl gconf2 gconf-service gconf-service-backend gconf2-common libappindicator1 libatomic1 libc++1 libc++abi1 libgconf-2-4 libindicator7 libcurl4-gnutls-dev easytag mpv;
+# ===========================================
+# install Ukuu (Ubuntu Kernel Update Utility)
+
+sudo apt-add-repository -y ppa:teejee2008/ppa;
+sudo apt-get update;
+sudo apt-get install ukuu;
 
 # ==========
 # update pip
@@ -103,16 +109,6 @@ sudo apt-get install -y nodejs;
 sudo npm update -g;
 
 sudo npm i -g nodemon;
-
-# =============================
-# install kernel 4.14.14-041414
-
-sudo mkdir ./kernel_debs;
-cd ./kernel_debs
-wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.14.14/linux-headers-4.14.14-041414_4.14.14-041414.201801201219_all.deb http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.14.14/linux-headers-4.14.14-041414-generic_4.14.14-041414.201801201219_amd64.deb http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.14.14/linux-headers-4.14.14-041414-lowlatency_4.14.14-041414.201801201219_amd64.deb http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.14.14/linux-image-4.14.14-041414-generic_4.14.14-041414.201801201219_amd64.deb http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.14.14/linux-image-4.14.14-041414-lowlatency_4.14.14-041414.201801201219_amd64.deb
-sudo dpkg -i ./*deb;
-cd ..
-sudo rm -R ./kernel_debs;
 
 # =============
 # final upgrade
