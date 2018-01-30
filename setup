@@ -1,5 +1,15 @@
 sudo apt-get update;
-sudo apt-get install java-common vlc browser-plugin-vlc clipit git python-pip openvpn curl gconf2 gconf-service gconf-service-backend gconf2-common libappindicator1 libatomic1 libc++1 libc++abi1 libgconf-2-4 libindicator7 libcurl4-gnutls-dev easytag mpv;
+sudo apt-get install java-common vlc browser-plugin-vlc clipit git python-pip openvpn curl gconf2 gconf-service gconf-service-backend gconf2-common libappindicator1 libatomic1 libc++1 libc++abi1 libgconf-2-4 libindicator7 libcurl4-gnutls-dev easytag mpv ca-certificates-java openjdk-8-jre-headless fonts-dejavu-extra fonts-ipafont-gothic fonts-ipafont-mincho fonts-wqy-microhei fonts-wqy-zenhei duplicity net-tools;
+
+# ==================
+# install mkvtoolnix
+
+wget -q -O - https://mkvtoolnix.download/gpg-pub-moritzbunkus.txt | sudo apt-key add -;
+sudo touch /etc/apt/sources.list.d/bunkus.org.list;
+sudo echo -e "deb https://mkvtoolnix.download/ubuntu/artful/ ./ \ndeb-src https://mkvtoolnix.download/ubuntu/artful/ ./" | sudo tee -a /etc/apt/sources.list.d/bunkus.org.list
+sudo apt update;
+sudo apt install mkvtoolnix mkvtoolnix-gui;
+
 # ===========================================
 # install Ukuu (Ubuntu Kernel Update Utility)
 
@@ -54,24 +64,35 @@ cd ..
 sudo rm -R ./tar_postman;
 sudo ln -s /opt/Postman/Postman /usr/bin/postman;
 
+cat > ~/.local/share/applications/postman.desktop <<EOL
+[Desktop Entry]
+Encoding=UTF-8
+Name=Postman
+Exec=postman
+Icon=/opt/Postman/resources/app/assets/icon.png
+Terminal=false
+Type=Application
+Categories=Development;
+EOL;
+
 # =================
 # install GitKraken
 
 sudo mkdir ./kraken_deb;
-cd ./kraken_deb
+cd ./kraken_deb;
 wget https://release.gitkraken.com/linux/gitkraken-amd64.deb;
 sudo dpkg -i ./*deb;
-cd ..
+cd ..;
 sudo rm -R ./kraken_deb;
 
 # ===================
 # install Slack 3.0.5
 
-sudo mkdi ./deb_slack;
-cd ./deb_slack
+sudo mkdir ./deb_slack;
+cd ./deb_slack;
 wget https://downloads.slack-edge.com/linux_releases/slack-desktop-3.0.5-amd64.deb;
 sudo dpkg -i ./*deb;
-cd ..
+cd ..;
 sudo rm -R ./deb_slack;
 
 # =====================
@@ -94,12 +115,13 @@ sudo update-dbeaver;
 # install Atom v.1.23.3
 
 sudo mkdir ./atom_deb;
-cd ./atom_deb
-sudo curl -sL --output atom.deb https://atom-installer.github.com/v1.23.3/atom-amd64.deb?s=1515545945&ext=.deb;
+cd ./atom_deb;
+sudo curl -LO https://atom-installer.github.com/v1.23.3/atom-amd64.deb;
 sudo dpkg -i ./*deb;
-cd ..
+cd ..;
 sudo rm -R ./atom_deb;
 sudo apm update;
+sudo apm i city-lights-ui city-lights-icons city-lights-syntax git-status atom-clock todo-show atom-beautify; 
 
 # ================
 # install Nodejs 9
