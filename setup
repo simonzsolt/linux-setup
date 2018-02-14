@@ -1,5 +1,5 @@
 sudo apt-get update;
-sudo apt-get install java-common vlc browser-plugin-vlc clipit git python-pip openvpn curl gconf2 gconf-service gconf-service-backend gconf2-common libappindicator1 libatomic1 libc++1 libc++abi1 libgconf-2-4 libindicator7 libcurl4-gnutls-dev easytag mpv ca-certificates-java openjdk-8-jre-headless fonts-dejavu-extra fonts-ipafont-gothic fonts-ipafont-mincho fonts-wqy-microhei fonts-wqy-zenhei duplicity net-tools icedtea-netx;
+sudo apt-get install java-common vlc browser-plugin-vlc clipit git python-pip openvpn curl gconf2 gconf-service gconf-service-backend gconf2-common libappindicator1 libatomic1 libc++1 libc++abi1 libgconf-2-4 libindicator7 libcurl4-gnutls-dev easytag mpv ca-certificates-java openjdk-8-jre-headless fonts-dejavu-extra fonts-ipafont-gothic fonts-ipafont-mincho fonts-wqy-microhei fonts-wqy-zenhei duplicity net-tools icedtea-netx sqlformat;
 
 # ==================
 # install mkvtoolnix
@@ -26,11 +26,6 @@ sudo -H pip install -U pip;
 # install youtube-dl
 
 sudo pip install --upgrade youtube_dl;
-
-# ============================
-# install beautifiers for Atom
-
-pip install --upgrade sqlparse
 
 # ===============
 # install Calibre
