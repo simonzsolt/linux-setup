@@ -1,0 +1,7 @@
+sudo mkdir /tmp/compass-deb;
+cd /tmp/compass-deb;
+sudo curl -LO https://downloads.mongodb.com/compass/mongodb-compass-community_1.12.4_amd64.deb;
+sudo dpkg -i ./*deb;
+cd;
+sudo rm -R /tmp/compass-deb;
+
