@@ -1,8 +1,8 @@
 #!/bin/bash
 exec 
 	mkvextract $1 tracks $2:$1.sub;
-	sed -i -e 's/\[.*//mg' $1.sub;
-	sed -i -e 's/♪//mg' $1.sub;
-	sed -i -e 's/\*.*//mg' $1.sub;
-	sed -i -e 's/.*\]//mg' $1.sub;
+	sed -i -e 's/\[.*//g' $1.sub;
+	sed -i -e 's/♪//g' $1.sub;
+	sed -i -e 's/\*.*//g' $1.sub;
+	#sed -i -e 's/.*\]//g' $1.sub;
 	echo "Done creating file: $1.sub";

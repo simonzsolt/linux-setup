@@ -1,53 +1,28 @@
 #!/bin/bash
+exec
 
-function update_deb {
-     sudo mkdir /tmp/dbeaver-deb;
-     cd /tmp/dbeaver-deb;
-     sudo curl -LO https://dbeaver.jkiss.org/files/dbeaver-ce_latest_amd64.deb;
-     sudo dpkg -i ./*deb;
-     cd;
-     sudo rm -R /tmp/dbeaver-deb;
-};
+	function update-dbeaver-deb {
+    	echo "Updating DBeaver...";
+		sudo mkdir /tmp/dbeaver-deb;
+     	cd /tmp/dbeaver-deb;
+     	sudo curl -LO https://dbeaver.jkiss.org/files/dbeaver-ce_latest_amd64.deb;
+     	sudo dpkg -i ./*deb;
+     	cd;
+     	sudo rm -R /tmp/dbeaver-deb;
+		echo "DBeaver updated.";
+	};
 
+	CURRENT="$( sudo dpkg --list | grep beaver | cut -d " " -f 43 )";
+	LATEST="$( curl -s https://dbeaver.jkiss.org/download/ | grep "<h2>Community Edition" | cut -d ' ' -f3 | cut -d '<' -f1 )";
 
-CURRENT="$( sudo dpkg --list | grep beaver | cut -d " " -f 43 )";
-LATEST="$( curl -s https://dbeaver.jkiss.org/download/ | grep "<h2>Community Edition" | cut -d ' ' -f3 | cut -d '<' -f1 )"
-echo "Current: $CURRENT <> latest: $LATEST";
-
-CURRENT_MAJOR="$( sudo dpkg --list | grep beaver | cut -d " " -f 43 | cut -d '.' -f1 )";
-CURRENT_MINOR="$( sudo dpkg --list | grep beaver | cut -d " " -f 43 | cut -d '.' -f2 )";
-CURRENT_PATCH="$( sudo dpkg --list | grep beaver | cut -d " " -f 43 | cut -d '.' -f3 )";
-
-echo "$CURRENT_MAJOR + $CURRENT_MINOR + $CURRENT_PATCH";
-
-LATEST_MAJOR="$( curl -s https://dbeaver.jkiss.org/download/ | grep "<h2>Community Edition" | cut -d ' ' -f3 | cut -d '<' -f1 | cut -d '.' -f1 )"
-LATEST_MINOR="$( curl -s https://dbeaver.jkiss.org/download/ | grep "<h2>Community Edition" | cut -d ' ' -f3 | cut -d '<' -f1 | cut -d '.' -f2 )"
-LATEST_PATCH="$( curl -s https://dbeaver.jkiss.org/download/ | grep "<h2>Community Edition" | cut -d ' ' -f3 | cut -d '<' -f1 | cut -d '.' -f3 )"
-
-echo "$LATEST_MAJOR + $LATEST_MINOR + $LATEST_PATCH";
-
-if [ $CURRENT_MAJOR -eq $LATEST_MAJOR ]
-then
-	if [ $CURRENT_MINOR -eq $LATEST_MINOR ]
-	then
-		if [ $CURRENT_PATCH -eq $LATEST_PATCH ]
-		then
-			echo "Up to date: $CURRENT = $LATEST";
-			#done;
-		elif [ $CURRENT_PATCH -lt $LATEST_PATCH ]
-		then
-			update_deb;
-	        #done;
-		fi
-	elif [ $CURRENT_MINOR -lt $LATEST_MINOR ]
-	then
-		update_deb;
-   		#done;
+	function version_gt() { 
+		echo "Comparing DBeaver versions: current($CURRENT) with latest($LATEST)...";
+	  	test "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1"; 
+	}
+	
+	if version_gt "$LATEST" "$CURRENT" ; then
+		update-dbeaver-deb
+	else
+		echo "DBeaver up to date."	
 	fi
-elif [ $CURRENT_MAJOR -lt $LATEST_MAJOR ]
-then
-	update_deb;
-	#done;
-fi
 
-update_deb;

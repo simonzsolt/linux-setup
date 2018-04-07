@@ -1,0 +1,18 @@
+#!/bin/bash
+exec
+	CURRENT="$(  npm --version | tail -n 1 )";	
+	LATEST="$( curl -s https://raw.githubusercontent.com/npm/npm/latest/package.json | jq '.version' | sed -e 's/"//g' )";
+
+	function version_gt() { 
+		echo "Comparing npm versions: current($CURRENT) with latest($LATEST)...";
+	  	test "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1"; 
+	}
+	
+	if version_gt "$LATEST" "$CURRENT" ; then
+		echo "Updating npm to latest version...";
+		nvm install-latest-npm;
+		npm i -g nodemon redis-commander;
+		echo "npm updated."
+	else
+		echo "npm up to date."	
+	fi

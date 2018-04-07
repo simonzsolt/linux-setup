@@ -4,18 +4,19 @@ exec
 	LATEST="$( curl -s https://www.gitkraken.com/download | grep 'Latest release' | cut -d ':' -f 2 | cut -d '<' -f 1 | sed 's/\s//g' )";
 
 	function version_gt() { 
-		echo "Comparing versions: current($CURRENT) with latest($LATEST)...";
+		echo "Comparing GitKraken versions: current($CURRENT) with latest($LATEST)...";
 	  	test "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1"; 
 	}
 	
 	if version_gt "$LATEST" "$CURRENT" ; then
-		echo "Updating to latest version..."
+		echo "Updating GitKraken to latest version..."
 		sudo mkdir /tmp/gitkraken;
 		cd /tmp/gitkraken;
 		sudo curl -LO https://release.gitkraken.com/linux/gitkraken-amd64.deb;
 		sudo dpkg -i ./*deb;
 		cd;
 		sudo rm -R /tmp/gitkraken;
+		echo "GitKraken updated."
 	else
-		echo "Gitkraken up to date."	
+		echo "GitKraken up to date."	
 	fi
