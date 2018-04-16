@@ -1,0 +1,28 @@
+#!/bin/bash
+exec
+
+	function update-atom-deb {
+    	echo "Updating atom...";
+		sudo mkdir /tmp/atom-deb;
+     	cd /tmp/atom-deb;
+     	sudo curl -LO https://atom.io/download/deb;
+     	sudo dpkg -i ./*deb;
+     	cd;
+     	sudo rm -R /tmp/atom-deb;
+		echo "Atom updated.";
+	};
+
+	CURRENT="$( atom --version | grep Atom | cut -d ':' -f 2 | sed -e 's/\s//g' )";
+	LATEST="$( curl -s https://atom.io/docs | grep "Current Version:" | cut -d 'v' -f 2 | sed -e 's/<.*//g' )";
+
+	function version_gt() { 
+		echo "Comparing atom versions: current($CURRENT) with latest($LATEST)...";
+	  	test "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1"; 
+	}
+	
+	if version_gt "$LATEST" "$CURRENT" ; then
+		update-atom-deb
+	else
+		echo "atom up to date."	
+	fi
+

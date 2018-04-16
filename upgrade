@@ -9,3 +9,5 @@ sudo apt-get dist-upgrade;
 sudo apt-get autoremove;
 apm update;
 update-gitkraken;
+update-dbeaver;
+update-atom;
