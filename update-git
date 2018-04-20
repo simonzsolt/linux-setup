@@ -1,0 +1,19 @@
+#!/bin/bash
+
+URL_PREFIX=https://mirrors.edge.kernel.org/pub/software/scm/git/git-;
+SUFFIX=.tar.gz;
+LATEST=$( curl -s https://git-scm.com/ | grep "Latest source Release " -A 3 | tail -n 1 | sed 's/\s//g' );
+URL="$URL_PREFIX$LATEST$SUFFIX";
+
+echo "Latest Git version is: $LATEST."
+
+sudo mkdir /tmp/git-tar;
+cd /tmp/git-tar;
+sudo curl -LO $URL; 
+sudo tar xvf ./git-$LATEST$SUFFIX;
+cd git-$LATEST;
+# ./configure --with-curl=/usr/bin/curl;
+sudo apt install libcurl4-openssl-dev;
+# test make with '-j 10'
+make -j 10 prefix=/usr profile-fast;
+sudo make prefix=/usr PROFILE=BUILD install;

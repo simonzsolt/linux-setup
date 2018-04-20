@@ -1,0 +1,21 @@
+#!/bin/bash
+
+LATEST="$( curl -s https://redis.io/ | grep 'is the latest stable version.' | cut -d ' ' -f 17 )";
+URL="$( curl -s https://redis.io/ | grep 'is the latest stable version.' | cut -d ' ' -f 16 | cut -d "'" -f 2 )";
+URL_ARRAY=( ${URL//\// } );
+ARCHIVE=${URL_ARRAY[3]};
+EXT_DIR=${ARCHIVE/'.tar.gz'/ }
+DIR=/tmp/redis-tar;
+
+sudo mkdir $DIR;
+cd $DIR;
+sudo curl -LO $URL;
+sudo tar xvf $ARCHIVE;
+cd $EXT_DIR;
+sudo make -j 10;
+sudo make DEFAULT_TEST_TARGET=prove GIT_PROVE_OPTS='--timer --jobs 16' test;
+sudo make install;
+cd utils;
+sudo ./install_server.sh;
+sudo mv -v /etc/init.d/redis_6379 /etc/init.d/redis-server;
+sudo rm -R $DIR;

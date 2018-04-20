@@ -1,0 +1,12 @@
+#!/bin/bash
+
+LATEST="$( curl -s https://slack.com/downloads/linux | grep 'Version' | cut -d ' ' -f 2 | cut -d '<' -f 1 )";
+URL_PREFIX=https://downloads.slack-edge.com/linux_releases/;
+APP=slack-desktop;
+SUFFIX=amd64.deb;
+sudo mkdir /tmp/slack-deb;
+cd /tmp/slack-deb;
+sudo curl -LO $URL_PREFIX$APP-$LATEST-$SUFFIX;
+sudo dpkg -i ./$APP-$LATEST-$SUFFIX;
+cd;
+sudo rm -R /tmp/slack-deb;

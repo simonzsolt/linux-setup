@@ -1,5 +1,10 @@
 #!/bin/bash
-exec
+
+	export NVM_DIR="$HOME/.nvm"
+	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+	[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+
 	CURRENT="$(  npm --version | tail -n 1 )";	
 	LATEST="$( curl -s https://raw.githubusercontent.com/npm/npm/latest/package.json | jq '.version' | sed -e 's/"//g' )";
 
