@@ -1,18 +1,39 @@
 #!/bin/bash
 exec
-
-	function update-dbeaver-deb {
+	function update-dbeaver {
     	echo "Updating DBeaver...";
-		sudo mkdir /tmp/dbeaver-deb;
-     	cd /tmp/dbeaver-deb;
-     	sudo curl -LO https://dbeaver.jkiss.org/files/dbeaver-ce_latest_amd64.deb;
-     	sudo dpkg -i ./*deb;
+		sudo mkdir /tmp/dbeaver-update;
+     	cd /tmp/dbeaver-update;
+     	sudo curl -L --output dbeaver-ce-latest.tar.gz https://dbeaver.jkiss.org/files/dbeaver-ce-latest-linux.gtk.x86_64.tar.gz;
+     	sudo tar xvf ./dbeaver-ce-latest.tar.gz;
+		sudo rm -R /opt/dbeaver/*;
+		sudo rsync -r ./dbeaver/* /opt/dbeaver/;
+		sudo chown -R jota:jota /opt/dbeaver/*;
+		# sudo ln -s /opt/dbeaver/dbeaver /usr/bin/local;
+		sudo rm /usr/share/applications/dbeaver.desktop;
+		sudo touch /usr/share/applications/dbeaver.desktop;
+		sudo tee /usr/share/applications/dbeaver.desktop <<EOL
+			[Desktop Entry]
+			Version=1.0
+			Type=Application
+			Terminal=false
+			Name=DBeaver Community
+			GenericName=SQL Database Client
+			Comment=Universal Database Manager and SQL Client.
+			Path=/opt/dbeaver/dbeaver
+			Exec=/usr/local/bin/dbeaver
+			Icon=/opt/dbeaver/dbeaver.png
+			Categories=IDE;Development
+			WM_CLASS=DBeaver
+			StartupWMClass=DBeaver
+			StartupNotify=true
+EOL
      	cd;
-     	sudo rm -R /tmp/dbeaver-deb;
+     	sudo rm -R /tmp/dbeaver-update;
 		echo "DBeaver updated.";
 	};
 
-	CURRENT="$( sudo dpkg --list | grep beaver | cut -d " " -f 43 )";
+	CURRENT="$( cat /opt/dbeaver/readme.txt | head -n 3 | tail -n 1 )";
 	LATEST="$( curl -s https://dbeaver.jkiss.org/download/ | grep "<h2>Community Edition" | cut -d ' ' -f3 | cut -d '<' -f1 )";
 
 	function version_gt() { 
@@ -21,7 +42,7 @@ exec
 	}
 	
 	if version_gt "$LATEST" "$CURRENT" ; then
-		update-dbeaver-deb
+		update-dbeaver
 	else
 		echo "DBeaver up to date."	
 	fi
