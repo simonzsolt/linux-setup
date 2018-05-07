@@ -28,8 +28,8 @@ exec
 			Name=Atom
 			GenericName=Atom
 			Comment=
-			Path=/opt/atom/atom
-			Exec=/usr/local/atom
+			Path=/opt/atom
+			Exec=/usr/local/bin/atom
 			Icon=/opt/atom/atom.png
 			Categories=Development
 EOL
