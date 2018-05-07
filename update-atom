@@ -1,28 +1,53 @@
 #!/bin/bash
 exec
 
-	function update-atom-deb {
-    	echo "Updating atom...";
-		sudo mkdir /tmp/atom-deb;
-     	cd /tmp/atom-deb;
-     	sudo curl -LO https://atom.io/download/deb;
-     	sudo dpkg -i ./*deb;
+	LATEST="$( curl -sL https://atom.io/ | grep 'class="version"' | cut -d '>' -f 2 | cut -d '<' -f 1 )";
+
+	function update-atom {
+    	echo "Updating Atom...";
+		sudo mkdir /tmp/atom-update;
+     	cd /tmp/atom-update;
+
+		sudo curl -L --output atom.png https://raw.githubusercontent.com/stvhwrd/icons/master/atom/Atom-no_shadows-512.png;
+     	sudo curl -L --output atom-amd64.tar.gz https://github.com/atom/atom/releases/download/v$LATEST/atom-amd64.tar.gz;
+     	sudo tar xvf ./atom-amd64.tar.gz;
+
+		sudo rm -R /opt/atom/*;
+		sudo rsync -lr ./atom-$LATEST-amd64/* /opt/atom/;
+		sudo rsync ./atom.png /opt/atom/;
+		sudo chown -R jota:jota /opt/atom/*;
+		# sudo ln -s /opt/atom/atom /usr/local/bin/atom;
+		# sudo ln -s /opt/atom/resources/app/apm/bin/apm /usr/local/bin/apm;	
+		sudo rm /usr/share/applications/atom.desktop;
+		sudo touch /usr/share/applications/atom.desktop;
+		sudo tee /usr/share/applications/atom.desktop <<EOL
+			[Desktop Entry]
+			Version=1.0
+			Type=Application
+			Terminal=false
+			Name=Atom
+			GenericName=Atom
+			Comment=
+			Path=/opt/atom/atom
+			Exec=/usr/local/atom
+			Icon=/opt/atom/atom.png
+			Categories=Development
+EOL
      	cd;
-     	sudo rm -R /tmp/atom-deb;
+     	sudo rm -R /tmp/atom-update;
 		echo "Atom updated.";
 	};
 
-	CURRENT="$( atom --version | grep Atom | cut -d ':' -f 2 | sed -e 's/\s//g' )";
-	LATEST="$( curl -s https://atom.io/docs | grep "Current Version:" | cut -d 'v' -f 2 | sed -e 's/<.*//g' )";
+	CURRENT="$( atom --version | head -n 1 | cut -d ':' -f 2 | sed  's/\s//g' )";
 
 	function version_gt() { 
-		echo "Comparing atom versions: current($CURRENT) with latest($LATEST)...";
+		echo "Comparing Atom versions: current($CURRENT) with latest($LATEST)...";
 	  	test "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1"; 
 	}
 	
 	if version_gt "$LATEST" "$CURRENT" ; then
-		update-atom-deb
+		update-atom
 	else
-		echo "atom up to date."	
+		echo "Atom up to date."	
 	fi
 
