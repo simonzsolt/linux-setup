@@ -1,1 +1,0 @@
-curl -s https://atom.io/docs | grep 'Current Version' | cut -d ':' -f 2 | cut -d 'v' -f 2 | cut -d '<' -f 1

@@ -7,6 +7,7 @@ ARCHIVE=${URL_ARRAY[3]};
 EXT_DIR=${ARCHIVE/'.tar.gz'/ }
 DIR=/tmp/redis-tar;
 
+sudo mkdir /etc/init.d;
 sudo mkdir $DIR;
 cd $DIR;
 sudo curl -LO $URL;
@@ -17,5 +18,6 @@ sudo make DEFAULT_TEST_TARGET=prove GIT_PROVE_OPTS='--timer --jobs 16' test;
 sudo make install;
 cd utils;
 sudo ./install_server.sh;
-sudo mv -v /etc/init.d/redis_6379 /etc/init.d/redis-server;
+sudo mv -v /etc/init.d/redis_6379 /etc/redis-server;
+sudo rm -R /etc/init.d;
 sudo rm -R $DIR;
