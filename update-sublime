@@ -8,7 +8,6 @@ exec
 		sudo mkdir /tmp/sublime-update;
      	cd /tmp/sublime-update;
 
-		sudo curl -LO https://www.sublimetext.com/images/logo.svg;
      	sudo curl -L --output sublime_text_3_build__$LATEST\_x64.tar.bz2 https://download.sublimetext.com/sublime_text_3_build_$LATEST\_x64.tar.bz2;
      	sudo tar xvf sublime_text_3_build__$LATEST\_x64.tar.bz2;
 
