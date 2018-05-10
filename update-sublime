@@ -1,0 +1,36 @@
+#!/bin/bash
+exec
+
+	LATEST="$( curl -sL https://www.sublimetext.com/3 | grep 'class="latest"' | cut -d ' ' -f 4 | cut -d '<' -f 1 )";
+
+	function update-sublime {
+    	echo "Updating Sublime Text 3...";
+		sudo mkdir /tmp/sublime-update;
+     	cd /tmp/sublime-update;
+
+		sudo curl -LO https://www.sublimetext.com/images/logo.svg;
+     	sudo curl -L --output sublime_text_3_build__$LATEST\_x64.tar.bz2 https://download.sublimetext.com/sublime_text_3_build_$LATEST\_x64.tar.bz2;
+     	sudo tar xvf sublime_text_3_build__$LATEST\_x64.tar.bz2;
+
+		sudo rm -R /opt/sublime/*;
+		sudo rsync -lr ./sublime_text_3/* /opt/sublime/;
+		sudo chown -R jota:jota /opt/atom/*;
+		# sudo ln -s /opt/sublime/sublime_text /usr/local/bin/sublime;
+     	cd;
+     	sudo rm -R /tmp/sublime-update;
+		echo "Subliem Text 3 updated.";
+	};
+
+	CURRENT="$( sublime -v | cut -d ' ' -f 4 )";
+
+	function version_gt() { 
+		echo "Comparing Sublime Text 3 builds: current($CURRENT) with latest($LATEST)...";
+	  	test "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1"; 
+	}
+	
+	if version_gt "$LATEST" "$CURRENT" ; then
+		update-sublime
+	else
+		echo "Sublime Text 3 up to date."	
+	fi
+
